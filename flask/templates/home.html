@@ -1,0 +1,146 @@
+  <!DOCTYPE html>
+<html>
+
+<head>
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="https://seaportai.com/wp-content/uploads/2018/07/logo.png"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+      body {
+        font-family: Times New Roman;
+      }
+      h1 {
+        background-color: yellow;
+        display: inline-block;
+        font-size: 1.5em;
+        margin: 0;
+        padding: 5px;
+      }
+      h3 {
+        color: black;
+        font-size: 20px;
+        margin-top: 3px;
+        text-align: center;
+      }
+      #chatbox {
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+        margin-top: 60px;
+      }
+      #userInput {
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+        margin-top: 60px;
+      }
+      #textInput {
+        width: 90%;
+        border: none;
+        border-bottom: 3px solid black;
+        font-family: monospace;
+        font-size: 17px;
+      }
+      .userText {
+        color: white;
+        font-family: monospace;
+        font-size: 17px;
+        text-align: right;
+        line-height: 30px;
+      }
+      .userText span {
+        background-color: #808080;
+        padding: 10px;
+        border-radius: 2px;
+      }
+      .botText {
+        color: white;
+        font-family: monospace;
+        font-size: 17px;
+        text-align: left;
+        line-height: 30px;
+      }
+      .botText span {
+        background-color: #4169e1;
+        padding: 10px;
+        border-radius: 2px;
+      }
+      #tidbit {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 300px;
+      }
+      .boxed {
+        margin-left: auto;
+        margin-right: auto;
+        width: 78%;
+        margin-top: 60px;
+        border: 1px solid green;
+      }
+      .box {
+        border: 2px solid black;
+      }
+    </style>
+</head>
+
+  <title>ChatBot</title>
+  <body>
+    <!--<left-side>
+      <h1>
+        <center><img
+          src="https://seaportai.com/wp-content/uploads/2018/07/logo.png"
+		  src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSVD4kfy85h50iDUJQAPsAum-G4CL_JrRdtweTpxzzL2VYkx_GW&usqp=CAU"
+          alt="CANDICE"
+          style="width:150px;height:150px;"
+        /></center>Your Personal ChatBot
+      </h1>
+    </left-side>-->
+<div class="box"></div>
+    <div class="boxed">
+      <div>
+        <div id="chatbox">
+          <center><img
+            src="https://seaportai.com/wp-content/uploads/2018/07/logo.png"
+			alt="CANDICE"
+            style="width:150px;height:150px;"
+          /></center>
+          <p class="botText">
+            <span>Hi! I'm SeaportAI your personal ChatBot</span>
+          </p>
+        </div>
+        <div id="userInput">
+          <input id="textInput" type="text" name="msg" placeholder="Type your Message" />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+<script>
+        function getBotResponse() {
+          var rawText = $("#textInput").val();
+          var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+          $("#textInput").val("");
+          $("#chatbox").append(userHtml);
+          document
+            .getElementById("userInput")
+            .scrollIntoView({ block: "start", behavior: "smooth" });
+          $.get("/get", { msg: rawText }).done(function(data) {
+            var botHtml = '<p class="botText"><span>' + data + "</span></p>";
+            $("#chatbox").append(botHtml);
+            document
+              .getElementById("userInput")
+              .scrollIntoView({ block: "start", behavior: "smooth" });
+          });
+        }
+        $("#textInput").keypress(function(e) {
+          if (e.which == 13) {
+            getBotResponse();
+          }
+        });
+</script>
